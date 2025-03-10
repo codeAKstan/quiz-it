@@ -12,22 +12,22 @@ const OnboardingScreen = ({ title, subtitle, buttonText, linkText, nextPath, ima
       <img src={image.src} alt={title} className="w-64 h-64 mb-8" />
 
       {/* Title */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">{title}</h1>
+      <h1 className="text-3xl font-bold text-purple-800 mb-4 text-center">{title}</h1>
 
       {/* Subtitle */}
-      <p className="text-lg text-gray-600 mb-8 text-center max-w-md">{subtitle}</p>
+      <p className="text-lg text-purple-800 mb-8 text-center max-w-md">{subtitle}</p>
 
       {/* Continue Button */}
       <Link
         href={nextPath}
-        className="text-white px-8 py-3 rounded-10 text-lg font-semibold shadow-lg transition duration-300 mb-4"
-        style={{ backgroundColor: '#46178F' }} r
+        className="text-white px-20 py-3 rounded-[10px] text-lg font-semibold shadow-lg transition duration-300 mb-4"
+        style={{ backgroundColor: '#46178F' }}
       >
         {buttonText}
       </Link>
 
       {/* Login Link */}
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-black-500">
         {linkText}{' '}
         <span className="text-purple-800 cursor-pointer hover:underline">Log in</span>
       </p>
