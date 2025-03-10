@@ -72,7 +72,33 @@ npm start
 
 ### **3. Backend Setup**
 
-### **Navigate to the backend folder:**
+### **- Navigate to the backend folder:**
 ```bash
 cd ../backend/quizit_backend
+```
+
+### **- Create a virtual environment and activate it:**
+```bash
+python -m venv venv
+source venv/bin/activate  # On macOS/Linux
+venv\Scripts\activate     # On Windows
+```
+### **- Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+### **4. Setup the database**
+    Create a PostgreSQL database named quizit_db.
+
+    Update the database settings in settings.py.
+
+### **5. Run migration:**
+```bash
+python manage.py migrate
+```
+
+### **6. Start the development server:**
+```
+python manage.py runserver
 ```
