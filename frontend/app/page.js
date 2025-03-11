@@ -9,7 +9,7 @@ export default function Home() {
       subtitle="Earn through quiz"
       buttonText="Continue"
       linkText="Already have an account?"
-      nextPath="/topics"
+      nextPath="/topic"
       image={welcomeImage}
     />
   );

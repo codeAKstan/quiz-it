@@ -9,7 +9,7 @@ export default function Competition() {
       subtitle="with friends or the broader community"
       buttonText="Continue"
       linkText="Already have an account?"
-      nextPath="/dashboard" // Replace with the next screen path
+      nextPath="/topics" // Replace with the next screen path
       image={competitionImage}
     />
   );
