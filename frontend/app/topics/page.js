@@ -1,9 +1,14 @@
-"use client";
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation'; // Use useSearchParams to get query parameters
 
 export default function Topics() {
-  const [selectedTopics, setSelectedTopics] = useState([]);
+  const searchParams = useSearchParams();
+  const topicsQuery = searchParams.get('topics'); // Retrieve the topics query parameter
+  const initialSelectedTopics = topicsQuery ? topicsQuery.split(',') : [];
+
+  const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
 
   const categories = [
     {
@@ -83,8 +88,8 @@ export default function Topics() {
           }}
           className={`w-full px-8 py-3 rounded-full text-lg font-semibold shadow-lg text-center block ${
             isSelectionComplete
-              ? 'bg-[#46178F] text-white' // Enabled state
-              : 'bg-[#6A6277] text-white cursor-not-allowed' // Disabled state
+            ? 'bg-[#46178F] text-white' // Enabled state
+            : 'bg-[#6A6277] text-white cursor-not-allowed' // Disabled state
           }`}
           aria-disabled={!isSelectionComplete}
         >

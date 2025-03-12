@@ -1,5 +1,4 @@
-// app/questions/page.js
-'use client'; // Mark this component as a Client Component
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation'; // Use useSearchParams to get query parameters
