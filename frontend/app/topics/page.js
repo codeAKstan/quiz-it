@@ -1,6 +1,4 @@
-// app/topics/page.js
 "use client";
-// app/topics/page.js
 import React, { useState } from 'react';
 import Link from 'next/link';
 
@@ -26,6 +24,14 @@ export default function Topics() {
     },
   ];
 
+  // Track the number of selected topics per category
+  const selectedTopicsPerCategory = categories.map((category) => {
+    return selectedTopics.filter((topic) => category.topics.includes(topic)).length;
+  });
+
+  // Check if the user has selected 3 topics from each category
+  const isSelectionComplete = selectedTopicsPerCategory.every((count) => count === 3);
+
   const handleTopicSelect = (topic) => {
     if (selectedTopics.includes(topic)) {
       setSelectedTopics(selectedTopics.filter((t) => t !== topic));
@@ -38,8 +44,8 @@ export default function Topics() {
 
   return (
     <div className="p-6" style={{ backgroundColor: '#0D0022' }}>
-      <h1 className="text-3xl font-bold text-[#FBFCD8CC]  mb-4">
-        Select <span className='text-[#1E0A3E] '>3 topics</span> from each category to focus on
+      <h1 className="text-3xl font-bold text-[#FBFCD8CC] mb-4">
+        Select <span className="text-[#46178F]">3 topics</span> from each category to focus on
       </h1>
       <p className="text-lg text-[#FBFCD8CC] mb-8">
         We'll use them to customize your quiz experience
@@ -53,13 +59,13 @@ export default function Topics() {
               <button
                 key={idx}
                 className={`p-4 rounded-lg text-left ${
-                    selectedTopics.includes(topic)
-                      ? 'text-[#1E0A3E]' // Dark navy text for selected topics
-                      : 'text-white' // Default text color for unselected topics
-                  }`}
-                  style={{
-                    backgroundColor: selectedTopics.includes(topic) ? '#FFD700' : '#1E0A3E', // Gold for selected, dark navy for unselected
-                  }}
+                  selectedTopics.includes(topic)
+                    ? 'text-[#1E0A3E]'
+                    : 'text-white'
+                }`}
+                style={{
+                  backgroundColor: selectedTopics.includes(topic) ? '#FFD700' : '#1E0A3E',
+                }}
                 onClick={() => handleTopicSelect(topic)}
               >
                 {topic}
@@ -69,15 +75,20 @@ export default function Topics() {
         </div>
       ))}
 
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-white shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 p-6 shadow-lg">
         <Link
           href={{
             pathname: '/selected',
-            query: { topics: selectedTopics.join(',') }, // Pass selectedTopics as a query parameter
+            query: { topics: selectedTopics.join(',') },
           }}
-          className="w-full bg-purple-800 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg text-center block"
+          className={`w-full px-8 py-3 rounded-full text-lg font-semibold shadow-lg text-center block ${
+            isSelectionComplete
+              ? 'bg-[#46178F] text-white' // Enabled state
+              : 'bg-[#6A6277] text-white cursor-not-allowed' // Disabled state
+          }`}
+          aria-disabled={!isSelectionComplete}
         >
-          Continue
+          {isSelectionComplete ? 'Continue' : 'Select 3 each'}
         </Link>
       </div>
     </div>
