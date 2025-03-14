@@ -1,7 +1,20 @@
-import React from 'react';
-import Link from 'next/link';
+'use client';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Congratulations() {
+  const router = useRouter();
+
+  // Redirect to the Signup Page after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push('/signup');
+    }, 5000); 
+
+    // Cleanup the timer if the component unmounts
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
     <div
       className="flex flex-col items-center justify-center h-screen p-6"
