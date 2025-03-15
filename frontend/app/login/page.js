@@ -69,7 +69,7 @@ export default function Login() {
 
         {/* Forgot Password */}
         <p className="text-sm text-[#46178F] text-center mt-4">
-          <Link href="/forgot-password" className="hover:underline">
+          <Link href="/reset-password" className="hover:underline">
             Forgot Password?
           </Link>
         </p>
