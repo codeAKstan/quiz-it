@@ -29,7 +29,9 @@ const OnboardingScreen = ({ title, subtitle, buttonText, linkText, nextPath, ima
       {/* Login Link */}
       <p className="text-sm text-black-500">
         {linkText}{' '}
-        <span className="text-purple-800 cursor-pointer hover:underline">Log in</span>
+        <Link 
+        href={'/login'}
+        className="text-purple-800 cursor-pointer hover:underline">Log in</Link>
       </p>
     </div>
   );
