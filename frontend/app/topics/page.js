@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation'; // Use useSearchParams to get query parameters
+import { useSearchParams } from 'next/navigation';
 
 export default function Topics() {
   const searchParams = useSearchParams();
-  const topicsQuery = searchParams.get('topics'); // Retrieve the topics query parameter
+  const topicsQuery = searchParams.get('topics');
   const initialSelectedTopics = topicsQuery ? topicsQuery.split(',') : [];
 
   const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
