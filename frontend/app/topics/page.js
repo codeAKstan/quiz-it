@@ -1,14 +1,10 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Topics() {
-  const searchParams = useSearchParams();
-  const topicsQuery = searchParams.get('topics');
-  const initialSelectedTopics = topicsQuery ? topicsQuery.split(',') : [];
-
-  const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
+  const [selectedTopics, setSelectedTopics] = useState([]);
 
   const categories = [
     {
@@ -47,6 +43,13 @@ export default function Topics() {
     }
   };
 
+  const router = useRouter();
+
+  const handleContinue = () => {
+    // Pass selected topics to the Signup page via query parameters
+    router.push(`/signup?topics=${selectedTopics.join(',')}`);
+  };
+
   return (
     <div className="p-6" style={{ backgroundColor: '#0D0022' }}>
       <h1 className="text-3xl font-bold text-[#FBFCD8CC] mb-4">
@@ -81,20 +84,17 @@ export default function Topics() {
       ))}
 
       <div className="fixed bottom-0 left-0 right-0 p-6 shadow-lg">
-        <Link
-          href={{
-            pathname: '/selected',
-            query: { topics: selectedTopics.join(',') },
-          }}
+        <button
+          onClick={handleContinue}
           className={`w-full px-8 py-3 rounded-full text-lg font-semibold shadow-lg text-center block ${
             isSelectionComplete
-            ? 'bg-[#46178F] text-white' // Enabled state
-            : 'bg-[#6A6277] text-white cursor-not-allowed' // Disabled state
+              ? 'bg-[#46178F] text-white' // Enabled state
+              : 'bg-[#6A6277] text-white cursor-not-allowed' // Disabled state
           }`}
-          aria-disabled={!isSelectionComplete}
+          disabled={!isSelectionComplete}
         >
           {isSelectionComplete ? 'Continue' : 'Select 3 each'}
-        </Link>
+        </button>
       </div>
     </div>
   );
