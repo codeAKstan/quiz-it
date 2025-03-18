@@ -24,7 +24,7 @@ export default function Login() {
             });
 
             if (response.ok) {
-                router.push("/topics");
+                router.push("/dashboard");
             } else {
                 const data = await response.json();
                 setError(data.detail || "Invalid username or password");
