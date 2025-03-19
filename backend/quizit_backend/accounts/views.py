@@ -10,12 +10,12 @@ logger = logging.getLogger(__name__)
 
 class RegisterView(APIView):
     def post(self, request):
-        logger.info(f"Received data: {request.data}")  # Log the request data
+        logger.info(f"Received data: {request.data}") 
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        logger.error(f"Validation errors: {serializer.errors}")  # Log validation errors
+        logger.error(f"Validation errors: {serializer.errors}") 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):

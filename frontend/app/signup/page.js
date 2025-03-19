@@ -24,8 +24,7 @@ export default function Signup() {
     e.preventDefault();
 
     const payload = { username, email, password };
-    console.log('Sending payload:', payload); // Log the payload
-
+    console.log('Sending payload:', payload);
     const userResponse = await fetch('http://localhost:8000/api/register/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -38,9 +37,9 @@ export default function Signup() {
     }
 
     const userData = await userResponse.json();
-    const userId = userData.id; // Get the user ID from the response
+    const userId = userData.id;
 
-    // Step 2: Save the selected topics
+    // Save the selected topics
     const topicsResponse = await fetch('http://localhost:8000/api/topics/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
