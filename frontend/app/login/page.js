@@ -113,7 +113,11 @@ export default function Login() {
                 <img src="/google-icon.png" alt="Google login" className="w-10 h-10 cursor-pointer" />
                 <img src="/facebook-icon.png" alt="Facebook login" className="w-10 h-10 cursor-pointer" />
             </div>
-
+            <p className="text-xs  text-center mt-4">Don't have an account? {' '}
+          <Link href={"/signup"} className="text-xs text-[#FFD700]">
+           signup
+          </Link>
+        </p>
             {/* Terms and Conditions */}
             <p className="text-xs text-[#46178F4D] text-center mt-4">
                 By signing up, you accept Quiz It's{" "}

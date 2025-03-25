@@ -140,6 +140,11 @@ export default function Signup() {
             className="w-10 h-10 cursor-pointer"
           />
         </div>
+        <p className="text-xs  text-center mt-4">Have an account? {' '}
+          <Link href={"/login"} className="text-xs text-[#FFD700]">
+           login
+          </Link>
+        </p>
         {/* Terms and Conditions */}
         <p className="text-xs text-[#46178F4D] text-center mt-4">
           By signing up, you accept Quiz It's{' '}
