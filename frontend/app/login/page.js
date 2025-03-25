@@ -19,17 +19,24 @@ export default function Login() {
         try {
             const response = await fetch("http://localhost:8000/api/login/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    // Consider adding CORS headers if needed
+                },
+                credentials: 'include', // Important for session-based authentication
                 body: JSON.stringify({ username, password }),
             });
+
+            const data = await response.json();
 
             if (response.ok) {
                 router.push("/dashboard");
             } else {
-                const data = await response.json();
-                setError(data.detail || "Invalid username or password");
+                // Use the error message from the backend
+                setError(data.detail || "Login failed");
             }
         } catch (err) {
+            console.error("Login error:", err);
             setError("Network error. Please try again.");
         } finally {
             setLoading(false);

@@ -30,14 +30,14 @@ export default function Topics() {
     return selectedTopics.filter((topic) => category.topics.includes(topic)).length;
   });
 
-  // Check if the user has selected 3 topics from each category
-  const isSelectionComplete = selectedTopicsPerCategory.every((count) => count === 3);
+  // Check if the user has selected 1 topics from each category
+  const isSelectionComplete = selectedTopicsPerCategory.every((count) => count === 1);
 
   const handleTopicSelect = (topic) => {
     if (selectedTopics.includes(topic)) {
       setSelectedTopics(selectedTopics.filter((t) => t !== topic));
     } else {
-      if (selectedTopics.length < 12) {
+      if (selectedTopics.length < 4) {
         setSelectedTopics([...selectedTopics, topic]);
       }
     }
@@ -53,7 +53,7 @@ export default function Topics() {
   return (
     <div className="p-6" style={{ backgroundColor: '#0D0022' }}>
       <h1 className="text-3xl font-bold text-[#FBFCD8CC] mb-4">
-        Select <span className="text-[#46178F]">3 topics</span> from each category to focus on
+        Select at least <span className="text-[#46178F]">1 topic</span> from each category to focus on
       </h1>
       <p className="text-lg text-[#FBFCD8CC] mb-8">
         We'll use them to customize your quiz experience
@@ -93,7 +93,7 @@ export default function Topics() {
           }`}
           disabled={!isSelectionComplete}
         >
-          {isSelectionComplete ? 'Continue' : 'Select 3 each'}
+          {isSelectionComplete ? 'Continue' : 'Select 1 each'}
         </button>
       </div>
     </div>
