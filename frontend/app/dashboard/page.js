@@ -5,34 +5,34 @@ export default function Dashboard() {
   const user = {
     name: 'Chiamaka',
     points: 10,
-    rank: 2345,
+    rank: 245,
     badges: 1,
     profileImage: '/profile.svg'
   };
 
   const quizCategories = [
-    { 
-      name: 'Blockchain', 
-      questions: 15, 
-      icon: '/blockchain-icon.svg' 
+    {
+      name: 'Blockchain',
+      questions: 15,
+      icon: '/blockchain-icon.svg'
     },
-    { 
-      name: 'Health', 
-      questions: 25, 
-      icon: '/health-icon.svg' 
+    {
+      name: 'Health',
+      questions: 25,
+      icon: '/health-icon.svg'
     }
   ];
 
   const topRanks = [
-    { 
-      name: 'Davio Victor', 
-      title: 'Streak Saver', 
-      points: 505 
+    {
+      name: 'Davio Victor',
+      title: 'Streak Saver',
+      points: 505
     },
-    { 
-      name: 'Mayor Fred', 
-      title: 'Goal Getter', 
-      points: 501 
+    {
+      name: 'Mayor Fred',
+      title: 'Goal Getter',
+      points: 501
     }
   ];
 
@@ -40,25 +40,28 @@ export default function Dashboard() {
     <div className="bg-[#FBFCD8] min-h-screen p-4 relative">
       {/* Top Navigation */}
       <div className="flex justify-between items-center mb-4">
-        <img 
-          src="/explorer-icon.svg" 
-          alt="Explorer" 
-          className="w-10 h-10"
+        <img
+          src="/explorer-icon.svg"
+          alt="Explorer"
+          className="w-15 h-15"
         />
-        <img 
-          src="/notification-icon.svg" 
-          alt="Notifications" 
+        <img
+          src="/notification-icon.svg"
+          alt="Notifications"
           className="w-6 h-6"
         />
       </div>
 
       {/* Header with Profile */}
-      <div className="bg-[#46178F] text-white rounded-2xl p-4 mb-4 relative">
+      <div
+        className="bg-cover bg-center text-white rounded-4xl p-4 mb-4 relative"
+        style={{ backgroundImage: "url('/curve-bg.svg')" }}
+      >
         <div className="absolute inset-x-0 top-[-50px] flex justify-center">
-          <img 
-            src={user.profileImage} 
-            alt={`${user.name}'s profile`} 
-            className="w-32 h-32 rounded-full border-4 border-white"
+          <img
+            src={user.profileImage}
+            alt={`${user.name}'s profile`}
+            className="w-28 h-28 rounded-full border-2 border-[#ffffff]"
           />
         </div>
 
@@ -68,33 +71,45 @@ export default function Dashboard() {
         </div>
 
         {/* User Stats */}
-        <div className="flex justify-between text-center mt-4">
-          <div>
-            <img 
-              src="/points-icon.svg" 
-              alt="Points" 
-              className="mx-auto w-6 h-6"
-            />
-            <p>Points</p>
-            <p className="font-bold">{user.points}</p>
+        <div className="flex justify-between text-[#4B208DB2] text-center mt-4 bg-[#FBFCD8] p-4 rounded-4xl ">
+          <div className="flex items-center space-x-2">
+            <div className="bg-[#46178F] w-10 h-10 rounded-2xl flex items-center justify-center">
+              <img
+                src="/points-icon.svg"
+                alt="Points"
+                className="w-6 h-6"
+              />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Points</p>
+              <p className="font-bold">{user.points}</p>
+            </div>
           </div>
-          <div>
-            <img 
-              src="/ranks-icon.svg" 
-              alt="Rank" 
-              className="mx-auto w-6 h-6"
-            />
-            <p>Rank</p>
+          <div className="flex items-center space-x-2">
+            <div className="bg-[#46178F] w-10 h-10 rounded-2xl flex items-center justify-center">
+              <img
+                src="/ranks-icon.svg"
+                alt="Rank"
+                className="w-6 h-6"
+              />
+            </div>
+            <div>
+            <p className="text-sm text-gray-600">Rank</p>
             <p className="font-bold">{user.rank}</p>
+            </div>
           </div>
-          <div>
-            <img 
-              src="/badges-icon.svg" 
-              alt="Badges" 
-              className="mx-auto w-6 h-6"
-            />
-            <p>Badges</p>
+          <div className="flex items-center space-x-2">
+            <div className="bg-[#46178F] w-10 h-10 rounded-2xl flex items-center justify-center">
+              <img
+                src="/badges-icon.svg"
+                alt="Badges"
+                className="w-6 h-6"
+              />
+            </div>
+            <div>
+            <p className="text-sm text-gray-600">Badges</p>
             <p className="font-bold">{user.badges}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -102,44 +117,47 @@ export default function Dashboard() {
       {/* Your Quiz Section */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-[#46178F] font-bold">Your Quiz</h2>
-          <button className="text-[#46178F] text-sm">See all</button>
+          <h2 className="text-[#000] font-bold">Your Quiz</h2>
+          <button className="text-[#46178F58] text-sm">See all</button>
         </div>
+        <div className='bg-[#46178F08] rounded-lg p-2'>
         {quizCategories.map((quiz, index) => (
-          <div 
-            key={index} 
-            className="bg-{#8567B466} rounded-lg p-4 mb-2 flex items-center shadow-sm"
+          <div
+            key={index}
+            className=" p-4 mb-2 flex items-center shadow-sm"
           >
-            <img 
-              src={quiz.icon} 
-              alt={`${quiz.name} icon`} 
+            <img
+              src={quiz.icon}
+              alt={`${quiz.name} icon`}
               className="w-12 h-12 mr-4"
             />
-            <div className="flex-grow">
-              <h3 className="font-bold text-[#46178F]">{quiz.name}</h3>
+            <div className="flex-grow ">
+              <h3 className="font-bold text-[#000]">{quiz.name}</h3>
               <p className="text-gray-500">Questions: {quiz.questions}</p>
             </div>
-            <img 
-              src="/next-icon.svg" 
-              alt="Next" 
+            <img
+              src="/next-icon.svg"
+              alt="Next"
               className="w-2 h-2"
             />
           </div>
         ))}
+        </div>
       </div>
+
 
       {/* Top Rank of the Week */}
       <div>
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-[#46178F] font-bold">Top Rank of the Week</h2>
-          <button className="text-[#46178F] text-sm">See all</button>
+          <h2 className="text-[#000] font-bold">Top Rank of the Week</h2>
+          <button className="text-[#46178F58] text-sm">See all</button>
         </div>
         {topRanks.map((rank, index) => (
-          <div 
-            key={index} 
-            className="bg-white rounded-lg p-4 mb-2 flex items-center shadow-sm"
+          <div
+            key={index}
+            className="bg-[#46178F08] rounded-lg p-4 mb-2 flex items-center shadow-sm"
           >
-            <div className={`mr-4 text-xl font-bold ${index === 0 ? 'text-yellow-500' : 'text-gray-500'}`}>
+            <div className={`mr-4 text-xl font-bold ${index === 0 ? 'text-[#46178F]' : 'text-yellow-500'}`}>
               {index + 1}
             </div>
             <div className="flex-grow">
@@ -152,11 +170,18 @@ export default function Dashboard() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#46178F] flex justify-around p-2 shadow-lg">
+      <div
+        className="fixed bottom-0 left-0 right-0 flex justify-around p-2 shadow-lg bg-cover bg-center"
+        style={{ backgroundImage: "url('/bottom-bg.svg')" }}
+      >
         <img src="/home-icon.svg" alt="Home" className="w-6 h-6" />
         <img src="/coin-icon.svg" alt="Coin History" className="w-6 h-6" />
-        <div className="bg-[#46178F] text-white rounded-full w-12 h-12 flex items-center justify-center">
-          +
+        <div className="bg-[#46178F] text-white rounded-full w-8 h-8 flex items-center justify-center absolute top-[-20px] left-1/2 transform -translate-x-1/2">
+          <img
+            src="/add.svg"
+            alt="Add"
+            className="w-6 h-6"
+          />
         </div>
         <img src="/wallet-icon.svg" alt="My Wallet" className="w-6 h-6" />
         <img src="/profile-icon.svg" alt="Profile" className="w-6 h-6" />
