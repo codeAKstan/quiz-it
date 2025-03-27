@@ -1,40 +1,98 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
-  const user = {
-    name: 'Chiamaka',
-    points: 10,
-    rank: 245,
-    badges: 1,
-    profileImage: '/profile.svg'
-  };
+  const [user, setUser] = useState(null);
+  const [quizCategories, setQuizCategories] = useState([]);
+  const [topRanks, setTopRanks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const router = useRouter();
 
-  const quizCategories = [
-    {
-      name: 'Blockchain',
-      questions: 15,
-      icon: '/blockchain-icon.svg'
-    },
-    {
-      name: 'Health',
-      questions: 25,
-      icon: '/health-icon.svg'
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
     }
-  ];
 
-  const topRanks = [
-    {
-      name: 'Davio Victor',
-      title: 'Streak Saver',
-      points: 505
-    },
-    {
-      name: 'Mayor Fred',
-      title: 'Goal Getter',
-      points: 501
-    }
-  ];
+    const fetchData = async () => {
+      try {
+        // Fetch user data
+        const userResponse = await fetch('http://localhost:8000/api/user/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        // Fetch quiz categories
+        const categoriesResponse = await fetch('http://localhost:8000/api/quiz-categories/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        // Fetch top ranks
+        const ranksResponse = await fetch('http://localhost:8000/api/top-ranks/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        // Check if all responses are okay
+        if (!userResponse.ok || !categoriesResponse.ok || !ranksResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        // Parse responses
+        const userData = await userResponse.json();
+        const categoriesData = await categoriesResponse.json();
+        const ranksData = await ranksResponse.json();
+
+        // Update state
+        setUser(userData);
+        setQuizCategories(categoriesData);
+        setTopRanks(ranksData);
+        setLoading(false);
+
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        setError('Failed to load dashboard. Please try again.');
+        setLoading(false);
+        localStorage.removeItem('token');
+        router.push('/login');
+      }
+    };
+
+    fetchData();
+  }, [router]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="bg-[#FBFCD8] min-h-screen flex items-center justify-center">
+        <p className="text-[#46178F] text-xl">Loading Dashboard...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="bg-[#FBFCD8] min-h-screen flex items-center justify-center">
+        <p className="text-red-500 text-xl">{error}</p>
+      </div>
+    );
+  }
+
+  // Ensure user data exists before rendering
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="bg-[#FBFCD8] min-h-screen p-4 relative">
@@ -43,12 +101,12 @@ export default function Dashboard() {
         <img
           src="/explorer-icon.svg"
           alt="Explorer"
-          className="w-15 h-15"
+          className="w-25 h-25"
         />
         <img
           src="/notification-icon.svg"
           alt="Notifications"
-          className="w-6 h-6"
+          className="w-8 h-8"
         />
       </div>
 
@@ -59,14 +117,14 @@ export default function Dashboard() {
       >
         <div className="absolute inset-x-0 top-[-50px] flex justify-center">
           <img
-            src={user.profileImage}
-            alt={`${user.name}'s profile`}
+            src={user.profile_image || '/profile.svg'}
+            alt={`${user.username}'s profile`}
             className="w-28 h-28 rounded-full border-2 border-[#ffffff]"
           />
         </div>
 
         <div className="text-center mt-16">
-          <h1 className="text-xl font-bold">Hello, {user.name}</h1>
+          <h1 className="text-xl font-bold">Hello, {user.username}</h1>
           <p>Earn through quizit</p>
         </div>
 
@@ -121,30 +179,33 @@ export default function Dashboard() {
           <button className="text-[#46178F58] text-sm">See all</button>
         </div>
         <div className='bg-[#46178F08] rounded-lg p-2'>
-        {quizCategories.map((quiz, index) => (
-          <div
-            key={index}
-            className=" p-4 mb-2 flex items-center shadow-sm"
-          >
-            <img
-              src={quiz.icon}
-              alt={`${quiz.name} icon`}
-              className="w-12 h-12 mr-4"
-            />
-            <div className="flex-grow ">
-              <h3 className="font-bold text-[#000]">{quiz.name}</h3>
-              <p className="text-gray-500">Questions: {quiz.questions}</p>
+        {quizCategories.length > 0 ? (
+          quizCategories.map((quiz, index) => (
+            <div
+              key={index}
+              className="p-4 mb-2 flex items-center shadow-sm"
+            >
+              <img
+                src={quiz.icon || '/default-quiz-icon.svg'}
+                alt={`${quiz.name} icon`}
+                className="w-12 h-12 mr-4"
+              />
+              <div className="flex-grow">
+                <h3 className="font-bold text-[#000]">{quiz.name}</h3>
+                <p className="text-gray-500">Questions: {quiz.questions}</p>
+              </div>
+              <img
+                src="/next-icon.svg"
+                alt="Next"
+                className="w-6 h-6"
+              />
             </div>
-            <img
-              src="/next-icon.svg"
-              alt="Next"
-              className="w-2 h-2"
-            />
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No quiz categories available</p>
+        )}
         </div>
       </div>
-
 
       {/* Top Rank of the Week */}
       <div>
@@ -152,21 +213,25 @@ export default function Dashboard() {
           <h2 className="text-[#000] font-bold">Top Rank of the Week</h2>
           <button className="text-[#46178F58] text-sm">See all</button>
         </div>
-        {topRanks.map((rank, index) => (
-          <div
-            key={index}
-            className="bg-[#46178F08] rounded-lg p-4 mb-2 flex items-center shadow-sm"
-          >
-            <div className={`mr-4 text-xl font-bold ${index === 0 ? 'text-[#46178F]' : 'text-yellow-500'}`}>
-              {index + 1}
+        {topRanks.length > 0 ? (
+          topRanks.map((rank, index) => (
+            <div
+              key={index}
+              className="bg-[#46178F08] rounded-lg p-4 mb-2 flex items-center shadow-sm"
+            >
+              <div className={`mr-4 text-xl font-bold ${index === 0 ? 'text-[#46178F]' : 'text-yellow-500'}`}>
+                {index + 1}
+              </div>
+              <div className="flex-grow">
+                <h3 className="font-bold">{rank.username}</h3>
+                <p className="text-gray-500">{rank.title}</p>
+              </div>
+              <p className="font-bold text-[#46178F]">{rank.points} Pt</p>
             </div>
-            <div className="flex-grow">
-              <h3 className="font-bold">{rank.name}</h3>
-              <p className="text-gray-500">{rank.title}</p>
-            </div>
-            <p className="font-bold text-[#46178F]">{rank.points} Pt</p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No top ranks available</p>
+        )}
       </div>
 
       {/* Bottom Navigation */}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -15,34 +15,37 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         setError("");
-
+      
         try {
-            const response = await fetch("http://localhost:8000/api/login/", {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json",
-                    // Consider adding CORS headers if needed
-                },
-                credentials: 'include', // Important for session-based authentication
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                router.push("/dashboard");
-            } else {
-                // Use the error message from the backend
-                setError(data.detail || "Login failed");
-            }
+          const response = await fetch("http://localhost:8000/api/login/", {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+      
+          // Log full response for debugging
+          console.log('Response status:', response.status);
+          
+          const data = await response.json();
+          console.log('Response data:', data);
+      
+          if (response.ok) {
+            // Store user information and token
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            router.push("/dashboard");
+          } else {
+            setError(data.detail || "Login failed");
+          }
         } catch (err) {
-            console.error("Login error:", err);
-            setError("Network error. Please try again.");
+          console.error("Login error:", err);
+          setError("Network error. Please try again.");
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
     };
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#FBFCD8]">
             {/* Back Icon */}

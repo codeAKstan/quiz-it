@@ -22,37 +22,44 @@ export default function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
-    const payload = { username, email, password };
-    console.log('Sending payload:', payload);
-    const userResponse = await fetch('http://localhost:8000/api/register/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    if (!userResponse.ok) {
+  
+    try {
+      const userResponse = await fetch('http://localhost:8000/api/register/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password }),
+      });
+  
+      if (!userResponse.ok) {
+        alert('Signup failed');
+        return;
+      }
+  
+      const userData = await userResponse.json();
+      const userId = userData.user.id;
+      const token = userData.token;
+  
+      // Save topics with authentication
+      const topicsResponse = await fetch('http://localhost:8000/api/topics/', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Add authentication token
+        },
+        body: JSON.stringify({
+          topics: selectedTopics,
+        }),
+      });
+  
+      if (topicsResponse.ok) {
+        router.push('/login');
+      } else {
+        const errorData = await topicsResponse.json();
+        alert(`Failed to save topics: ${errorData.detail || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
       alert('Signup failed');
-      return;
-    }
-
-    const userData = await userResponse.json();
-    const userId = userData.id;
-
-    // Save the selected topics
-    const topicsResponse = await fetch('http://localhost:8000/api/topics/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user: userId,
-        topics: selectedTopics,
-      }),
-    });
-
-    if (topicsResponse.ok) {
-      router.push('/login');
-    } else {
-      alert('Failed to save topics');
     }
   };
 
