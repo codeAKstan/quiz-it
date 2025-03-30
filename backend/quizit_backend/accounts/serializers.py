@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 
             'username', 
             'email', 
+            'password',
             'first_name', 
             'last_name', 
             'points', 
@@ -20,6 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             'email': {'required': True},
+            'password': {'write_only': True},
             'points': {'read_only': True},
             'rank': {'read_only': True},
             'badges': {'read_only': True}
