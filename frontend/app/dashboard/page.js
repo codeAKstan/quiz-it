@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -239,17 +240,32 @@ export default function Dashboard() {
         className="fixed bottom-0 left-0 right-0 flex justify-around p-2 shadow-lg bg-cover bg-center"
         style={{ backgroundImage: "url('/bottom-bg.svg')" }}
       >
-        <img src="/home-icon.svg" alt="Home" className="w-6 h-6" />
-        <img src="/coin-icon.svg" alt="Coin History" className="w-6 h-6" />
-        <div className="bg-[#46178F] text-white rounded-full w-8 h-8 flex items-center justify-center absolute top-[-20px] left-1/2 transform -translate-x-1/2">
-          <img
-            src="/add.svg"
-            alt="Add"
-            className="w-6 h-6"
-          />
-        </div>
-        <img src="/wallet-icon.svg" alt="My Wallet" className="w-6 h-6" />
-        <img src="/profile-icon.svg" alt="Profile" className="w-6 h-6" />
+        <Link href="/dashboard" className="text-[#46178F58] flex flex-col items-center">
+          <img src="/home-icon.svg" alt="Home" className="w-6 h-6" />
+          <p className="text-xs text-[#FBFCD8]">Home</p>
+        </Link>
+        
+        <Link href="/coin-history" className="text-[#46178F58] flex flex-col items-center">
+          <img src="/coin-icon.svg" alt="Coin History" className="w-6 h-6" />
+          <p className="text-xs text-[#FBFCD8]">Coin History</p>
+        </Link>
+        
+        <Link href="/quiz" className="relative flex flex-col items-center">
+          <div className="bg-[#46178F] text-white rounded-full w-8 h-8 flex items-center justify-center absolute top-[-20px]">
+            <img src="/add.svg" alt="Add" className="w-6 h-6" />
+          </div>
+          <p className="text-xs mt-5 text-[#46178F58]">Add</p>
+        </Link>
+        
+        <Link href="/wallet" className="text-[#46178F58] flex flex-col items-center">
+          <img src="/wallet-icon.svg" alt="My Wallet" className="w-6 h-6" />
+          <p className="text-xs text-[#FBFCD8]">My Wallet</p>
+        </Link>
+        
+        <Link href="/myprofile" className="text-[#46178F] flex flex-col items-center">
+          <img src="/profile-icon.svg" alt="Profile" className="w-6 h-6" />
+          <p className="text-xs text-[#FBFCD8]">Profile</p>
+        </Link>
       </div>
     </div>
   );
