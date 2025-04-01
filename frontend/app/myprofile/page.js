@@ -128,13 +128,13 @@ export default function MyProfile() {
       <div className="flex justify-between items-center mb-4">
         <button onClick={() => router.push('/dashboard')} className="flex items-center text-[#46178F]">
           <img
-            src="/back-icon.svg"
+            src="/back-icon.png"
             alt="Back"
             className="w-6 h-6 mr-2"
           />
           Back
         </button>
-        <h1 className="text-xl font-bold text-[#46178F]">My Profile</h1>
+        {/* <h1 className="text-xl font-bold text-[#46178F]">My Profile</h1> */}
         <div className="w-6"></div> {/* Empty div for spacing */}
       </div>
 
@@ -349,7 +349,7 @@ export default function MyProfile() {
         </Link>
         
         <Link href="/quiz" className="relative flex flex-col items-center">
-          <div className="bg-[#46178F] text-white rounded-full w-8 h-8 flex items-center justify-center absolute top-[-20px]">
+        <div className="bg-[#46178F] text-white rounded-full w-8 h-8 flex items-center justify-center absolute top-[-20px] left-[-10px]">
             <img src="/add.svg" alt="Add" className="w-6 h-6" />
           </div>
           <p className="text-xs mt-5 text-[#46178F58]">Add</p>
