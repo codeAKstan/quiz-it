@@ -5,7 +5,8 @@ from .views import (
     UserTopicView, 
     UserProfileView, 
     QuizCategoryView, 
-    TopRankView
+    TopRankView,
+    ProfileImageUploadView
 )
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('topics/', UserTopicView.as_view(), name='topics'),
     path('user/', UserProfileView.as_view(), name='user_profile'),
+     path('user/profile-image/', ProfileImageUploadView.as_view(), name='profile_image_upload'),
     path('quiz-categories/', QuizCategoryView.as_view(), name='quiz_categories'),
     path('top-ranks/', TopRankView.as_view(), name='top_ranks'),
 ]

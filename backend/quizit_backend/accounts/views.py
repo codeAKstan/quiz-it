@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import parser_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -21,7 +23,7 @@ class RegisterView(APIView):
         logger.info(f"Received registration data: {request.data}")
         
         # Validate serializer
-        serializer = UserSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             try:
                 user = serializer.save()
@@ -31,7 +33,7 @@ class RegisterView(APIView):
                 return Response({
                     'token': str(refresh.access_token),
                     'refresh_token': str(refresh),
-                    'user': UserSerializer(user).data
+                    'user': UserSerializer(user, context={'request': request}).data
                 }, status=status.HTTP_201_CREATED)
             except Exception as e:
                 logger.error(f"Registration error: {str(e)}")
@@ -61,8 +63,8 @@ class LoginView(APIView):
             # Generate JWT tokens
             refresh = RefreshToken.for_user(user)
             
-            # Serialize user data
-            user_serializer = UserSerializer(user)
+            # Serialize user data with request context
+            user_serializer = UserSerializer(user, context={'request': request})
             
             return Response({
                 'token': str(refresh.access_token),
@@ -98,7 +100,7 @@ class UserProfileView(APIView):
     
     def get(self, request):
         user = request.user
-        serializer = UserSerializer(user)
+        serializer = UserSerializer(user, context={'request': request})
         
         # Additional user details
         user_data = serializer.data
@@ -110,7 +112,7 @@ class UserProfileView(APIView):
     
     def patch(self, request):
         user = request.user
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer = UserSerializer(user, data=request.data, partial=True, context={'request': request})
         
         if serializer.is_valid():
             serializer.save()
@@ -134,3 +136,37 @@ class TopRankView(APIView):
         top_ranks = TopRank.objects.all()[:5]
         serializer = TopRankSerializer(top_ranks, many=True)
         return Response(serializer.data)
+    
+
+
+
+
+
+class ProfileImageUploadView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+    
+    def post(self, request):
+        user = request.user
+        
+        # Check if an image was provided in the request
+        if 'profile_image' not in request.FILES:
+            return Response({'detail': 'No image file provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Update the user's profile image
+        user.profile_image = request.FILES['profile_image']
+        user.save()
+        
+        # Return the updated user data with request context
+        serializer = UserSerializer(user, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
+
+
+
+
+
+
+
