@@ -286,7 +286,7 @@ export default function MyProfile() {
             </div>
 
             {/* Profile Details Section */}
-            <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+            <div className="bg-[#46178F08] rounded-2xl p-4 mb-4 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-bold text-[#46178F]">Profile Details</h2>
                     <button
@@ -395,7 +395,7 @@ export default function MyProfile() {
             </div>
 
             {/* Topics Section */}
-            <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+            <div className="bg-{#46178F08} rounded-2xl p-4 mb-4 shadow-sm">
                 <h2 className="text-lg font-bold text-[#46178F] mb-4">Your Topics</h2>
                 {user.topics && user.topics.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
