@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User, UserTopic, QuizCategory, TopRank
 from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
 
 class UserSerializer(serializers.ModelSerializer):
     profile_image = serializers.SerializerMethodField()
@@ -68,3 +69,23 @@ class TopRankSerializer(serializers.ModelSerializer):
     class Meta:
         model = TopRank
         fields = ['username', 'title', 'points']
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField(required=True)
+    token = serializers.CharField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    password_confirm = serializers.CharField(write_only=True, required=True)
+    
+    def validate(self, attrs):
+        # Validate that the passwords match
+        if attrs['password'] != attrs['password_confirm']:
+            raise serializers.ValidationError({"password_confirm": "Password fields didn't match."})
+        
+        # Validate password strength
+        validate_password(attrs['password'])
+        
+        return attrs
