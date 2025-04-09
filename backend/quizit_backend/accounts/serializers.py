@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import User, UserTopic, QuizCategory, TopRank
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
-
 class UserSerializer(serializers.ModelSerializer):
     profile_image = serializers.SerializerMethodField()
     

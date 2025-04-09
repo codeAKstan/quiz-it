@@ -6,7 +6,10 @@ from .views import (
     UserProfileView, 
     QuizCategoryView, 
     TopRankView,
-    ProfileImageUploadView
+    ProfileImageUploadView,
+    PasswordResetRequestView,
+    PasswordResetConfirmView,
+    PasswordResetTrackingView
 )
 
 urlpatterns = [
@@ -17,4 +20,7 @@ urlpatterns = [
      path('user/profile-image/', ProfileImageUploadView.as_view(), name='profile_image_upload'),
     path('quiz-categories/', QuizCategoryView.as_view(), name='quiz_categories'),
     path('top-ranks/', TopRankView.as_view(), name='top_ranks'),
+    path('password-reset/', PasswordResetRequestView.as_view(), name='password_reset_request'),
+    path('password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password-reset/track/<str:uid>/<str:token>/', PasswordResetTrackingView.as_view(), name='password_reset_tracking'),
 ]
